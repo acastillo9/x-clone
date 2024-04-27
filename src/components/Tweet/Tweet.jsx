@@ -17,7 +17,8 @@ function Tweet({ data }) {
         navigate(`/tweets/${id}`)
     }
 
-    function addLike() {
+    function addLike(event) {
+        event.stopPropagation()
         // TODO Deberia llamar una API donde se cocume un servicio de dar like
         if (!isLiked) {
             data.likes += 1
