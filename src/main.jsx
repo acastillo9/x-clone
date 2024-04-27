@@ -25,8 +25,8 @@ const router = createBrowserRouter([
         element: <TweetDetails />
       },
       {
-        path: '*',
-        element: <Navigate to="/tweets" />
+        path: '',
+        element: <Navigate to="/tweets" replace={true} />
       }
     ]
   },

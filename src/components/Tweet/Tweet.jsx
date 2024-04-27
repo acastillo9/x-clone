@@ -3,6 +3,7 @@ import { faRetweet, faChartSimple, faArrowUpFromBracket, faHeart as faHeartSolid
 import { faComment, faHeart, faBookmark } from '@fortawesome/free-regular-svg-icons'
 import dayjs from 'dayjs'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Tweet.css'
 
 function Tweet({ data }) {
@@ -10,9 +11,10 @@ function Tweet({ data }) {
     // Hooks
     const [isLiked, setIsLiked] = useState(data.isLiked)
     const [likes, setLikes] = useState(data.likes)
+    const navigate = useNavigate()
 
     function goToTweet(id) {
-        console.log('go to', id)
+        navigate(`/tweets/${id}`)
     }
 
     function addLike() {
