@@ -1,5 +1,5 @@
 import './App.css'
-import Tweet from './Tweet'
+import Tweet from './components/Tweet/Tweet'
 
 function App() {
 
@@ -14,7 +14,8 @@ function App() {
       "reposts": 10,
       "likes": 150,
       "views": 10,
-      "profileImage": "https://randomuser.me/api/portraits/men/0.jpg"
+      "profileImage": "https://randomuser.me/api/portraits/men/0.jpg",
+      "isLiked": false,
     },
     {
       "id": "2",
@@ -26,7 +27,8 @@ function App() {
       "reposts": 10,
       "likes": 230,
       "views": 10,
-      "profileImage": "https://randomuser.me/api/portraits/women/0.jpg"
+      "profileImage": "https://randomuser.me/api/portraits/women/0.jpg",
+      "isLiked": false,
     },
     {
       "id": "3",
@@ -38,7 +40,8 @@ function App() {
       "reposts": 10,
       "likes": 75,
       "views": 10,
-      "profileImage": "https://randomuser.me/api/portraits/women/1.jpg"
+      "profileImage": "https://randomuser.me/api/portraits/women/1.jpg",
+      "isLiked": false,
     },
     {
       "id": "4",
@@ -50,7 +53,8 @@ function App() {
       "reposts": 10,
       "likes": 200,
       "views": 10,
-      "profileImage": "https://randomuser.me/api/portraits/men/1.jpg"
+      "profileImage": "https://randomuser.me/api/portraits/men/1.jpg",
+      "isLiked": false,
     }
   ]
 

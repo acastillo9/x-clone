@@ -1,12 +1,31 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRetweet, faChartSimple, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faRetweet, faChartSimple, faArrowUpFromBracket, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
 import { faComment, faHeart, faBookmark } from '@fortawesome/free-regular-svg-icons'
 import dayjs from 'dayjs'
+import { useState } from 'react'
+import './Tweet.css'
 
 function Tweet({ data }) {
 
+    // Hooks
+    const [isLiked, setIsLiked] = useState(data.isLiked)
+    const [likes, setLikes] = useState(data.likes)
+
     function goToTweet(id) {
         console.log('go to', id)
+    }
+
+    function addLike() {
+        // TODO Deberia llamar una API donde se cocume un servicio de dar like
+        if (!isLiked) {
+            data.likes += 1
+            data.isLiked = true    
+        } else {
+            data.likes -= 1
+            data.isLiked = false
+        }
+        setLikes(data.likes)
+        setIsLiked(data.isLiked)
     }
 
     return (
@@ -26,7 +45,9 @@ function Tweet({ data }) {
                     <ul className="flex justify-between">
                         <li className='flex gap-2 items-center'><button className='text-neutral-500 hover:text-sky-600 transition'><FontAwesomeIcon icon={faComment} /> <span>{data.replays}</span></button></li>
                         <li className='flex gap-2 items-center'><button className='text-neutral-500 hover:text-green-500 transition'><FontAwesomeIcon icon={faRetweet} /> <span>{data.reposts}</span></button></li>
-                        <li className='flex gap-2 items-center'><button className='text-neutral-500 hover:text-pink-600 transition'><FontAwesomeIcon icon={faHeart} /> <span>{data.likes}</span></button></li>
+                        <li className='flex gap-2 items-center'><button className={`text-neutral-500 ${isLiked ? 'text-pink-600' : 'hover:text-pink-600'} transition`} onClick={addLike}>
+                            <FontAwesomeIcon className={isLiked ? 'heart' : ''} icon={isLiked ? faHeartSolid : faHeart} /> <span>{likes}</span>
+                        </button></li>
                         <li className='flex gap-2 items-center'><button className='text-neutral-500 hover:text-sky-600 transition'><FontAwesomeIcon icon={faChartSimple} /> <span>{data.views}</span></button></li>
                         <li className='flex gap-3 items-center'>
                             <button className='text-neutral-500 hover:text-sky-600 transition'><FontAwesomeIcon icon={faBookmark} /></button>
