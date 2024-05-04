@@ -8,23 +8,13 @@ function TweetDetails() {
     const [data, setData] = useState(null)
 
     useEffect(() => {
-        // TODO llamar a API y solicitar el tweet con id tweetId
-        const response = {
-            "id": tweetId,
-            "text": "Just saw the most beautiful sunset! 🌅",
-            "user": "@juan",
-            "name": "Juan",
-            "timestamp": "2024-04-20T18:30:00Z",
-            "replays": 15,
-            "reposts": 10,
-            "likes": 150,
-            "views": 10,
-            "profileImage": "https://randomuser.me/api/portraits/men/0.jpg",
-            "isLiked": false,
-        }
-        setData(response)
+        fetch(`http://localhost:3000/tweets/${tweetId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setData(data)
+            })
     }, [tweetId])
-    
+
 
     return (
         data ? <Tweet data={data} /> : null
