@@ -8,7 +8,7 @@ function TweetDetails() {
     const [data, setData] = useState(null)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/tweets/${tweetId}`)
+        fetch(`${import.meta.env.VITE_BASE_URL}/tweets/${tweetId}`)
             .then((response) => response.json())
             .then((data) => {
                 setData(data)

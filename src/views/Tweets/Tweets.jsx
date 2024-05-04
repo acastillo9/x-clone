@@ -6,7 +6,7 @@ function Tweets() {
   const [ tweets, setTweets ] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:3000/tweets')
+    fetch(`${import.meta.env.VITE_BASE_URL}/tweets`)
       .then((response) => response.json())
       .then((data) => {
         setTweets(data)
@@ -33,7 +33,7 @@ function Tweets() {
     }
     // TODO enviar a crear el twwet en el server
 
-    fetch('http://localhost:3000/tweets', {
+    fetch(`${import.meta.env.VITE_BASE_URL}/tweets`, {
       method: 'POST',
       body: JSON.stringify(tweet),
       headers: {
@@ -50,7 +50,7 @@ function Tweets() {
   }
 
   function deleteTweet(tweetId) {
-    fetch(`http://localhost:3000/tweets/${tweetId}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/tweets/${tweetId}`, {
       method: 'DELETE'
     })
       .then((response) => response.json())
