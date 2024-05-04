@@ -1,65 +1,17 @@
 import Tweet from "../../components/Tweet/Tweet"
 import CreateTweet from "../../components/CreateTweet/CreateTweet"
-import { useState } from "react"
-
-const DEFAULT_TWEETS = [
-  {
-    "id": "1",
-    "text": "Just saw the most beautiful sunset! 🌅",
-    "user": "@juan",
-    "name": "Juan",
-    "timestamp": "2024-04-20T18:30:00Z",
-    "replays": 15,
-    "reposts": 10,
-    "likes": 150,
-    "views": 10,
-    "profileImage": "https://randomuser.me/api/portraits/men/0.jpg",
-    "isLiked": false,
-  },
-  {
-    "id": "2",
-    "text": "Excited to announce I'm starting a new job at @TechInnovate!",
-    "user": "@laura",
-    "name": "Laura",
-    "timestamp": "2024-04-19T09:00:00Z",
-    "replays": 20,
-    "reposts": 10,
-    "likes": 230,
-    "views": 10,
-    "profileImage": "https://randomuser.me/api/portraits/women/0.jpg",
-    "isLiked": false,
-  },
-  {
-    "id": "3",
-    "text": "Can anyone recommend a good book on machine learning?",
-    "user": "@maria",
-    "name": "Maria",
-    "timestamp": "2024-04-18T15:45:00Z",
-    "replays": 50,
-    "reposts": 10,
-    "likes": 75,
-    "views": 10,
-    "profileImage": "https://randomuser.me/api/portraits/women/1.jpg",
-    "isLiked": false,
-  },
-  {
-    "id": "4",
-    "text": "Thank you all for the birthday wishes! Feeling loved. ❤️",
-    "user": "@luis",
-    "name": "Luis",
-    "timestamp": "2024-04-17T22:00:00Z",
-    "replays": 10,
-    "reposts": 10,
-    "likes": 200,
-    "views": 10,
-    "profileImage": "https://randomuser.me/api/portraits/men/1.jpg",
-    "isLiked": false,
-  }
-]
+import { useEffect, useState } from "react"
 
 function Tweets() {
+  const [ tweets, setTweets ] = useState([])
 
-  const [ tweets, setTweets ] = useState(DEFAULT_TWEETS)
+  useEffect(() => {
+    fetch('http://localhost:3000/tweets')
+      .then((response) => response.json())
+      .then((data) => {
+        setTweets(data)
+      })
+  }, [])
 
   const currentUser = {
     user: "@luis",
@@ -80,17 +32,40 @@ function Tweets() {
       isLiked: false,
     }
     // TODO enviar a crear el twwet en el server
-    setTweets([
-      tweet,
-      ...tweets,
-    ])
+
+    fetch('http://localhost:3000/tweets', {
+      method: 'POST',
+      body: JSON.stringify(tweet),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((response) => response.json())
+      .then((newTweet) => {
+        setTweets([
+          newTweet,
+          ...tweets,
+        ])
+      })
+  }
+
+  function deleteTweet(tweetId) {
+    fetch(`http://localhost:3000/tweets/${tweetId}`, {
+      method: 'DELETE'
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setTweets([
+          ...tweets.filter((tweet) => tweet.id !== data.id),
+        ])
+      })
   }
 
   return (
     <>
       <CreateTweet onCreate={createTweet} />
       <section>
-        {tweets.map((tweet) => <Tweet key={tweet.id} data={tweet}></Tweet>)}
+        {tweets.map((tweet) => <Tweet key={tweet.id} data={tweet} onDelete={deleteTweet}></Tweet>)}
       </section>
     </>
   )

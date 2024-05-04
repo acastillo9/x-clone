@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRetweet, faChartSimple, faArrowUpFromBracket, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
-import { faComment, faHeart, faBookmark } from '@fortawesome/free-regular-svg-icons'
+import { faComment, faHeart, faBookmark, faTrashCan } from '@fortawesome/free-regular-svg-icons'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Tweet.css'
 
-function Tweet({ data }) {
+function Tweet({ data, onDelete }) {
 
     // Hooks
     const [isLiked, setIsLiked] = useState(data.isLiked)
@@ -22,7 +22,7 @@ function Tweet({ data }) {
         // TODO Deberia llamar una API donde se cocume un servicio de dar like
         if (!isLiked) {
             data.likes += 1
-            data.isLiked = true    
+            data.isLiked = true
         } else {
             data.likes -= 1
             data.isLiked = false
@@ -31,15 +31,23 @@ function Tweet({ data }) {
         setIsLiked(data.isLiked)
     }
 
+    function deleteTweet(tweetId, event) {
+        event.stopPropagation()
+        onDelete(tweetId)
+    }
+
     return (
         <article className="flex p-4 gap-4 w-full cursor-pointer" onClick={() => goToTweet(data.id)}>
             <div><img className="w-10 h-10 rounded-full" src={data.profileImage} alt={data.name} /></div>
             <div className="flex flex-col gap-1 flex-1">
-                <div className="flex gap-1">
-                    <a className="font-bold hover:underline" href="#">{data.name}</a>
-                    <a className="text-neutral-500" href="#">{data.user}</a>
-                    <span className="text-neutral-500">·</span>
-                    <span className="text-neutral-500">{dayjs(data.timestamp).format('MMM DD')}</span>
+                <div className='flex justify-between items-center'>
+                    <div className="flex gap-1">
+                        <a className="font-bold hover:underline" href="#">{data.name}</a>
+                        <a className="text-neutral-500" href="#">{data.user}</a>
+                        <span className="text-neutral-500">·</span>
+                        <span className="text-neutral-500">{dayjs(data.timestamp).format('MMM DD')}</span>
+                    </div>
+                    <button onClick={(e) => deleteTweet(data.id, e)}><FontAwesomeIcon className='justify-self-end' icon={faTrashCan} /></button>
                 </div>
                 <div>
                     <p>{data.text}</p>
