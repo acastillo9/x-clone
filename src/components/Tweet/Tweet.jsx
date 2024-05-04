@@ -47,7 +47,7 @@ function Tweet({ data, onDelete }) {
                         <span className="text-neutral-500">·</span>
                         <span className="text-neutral-500">{dayjs(data.timestamp).format('MMM DD')}</span>
                     </div>
-                    <button onClick={(e) => deleteTweet(data.id, e)}><FontAwesomeIcon className='justify-self-end' icon={faTrashCan} /></button>
+                    {onDelete && <button onClick={(e) => deleteTweet(data.id, e)}><FontAwesomeIcon className='justify-self-end' icon={faTrashCan} /></button>}
                 </div>
                 <div>
                     <p>{data.text}</p>

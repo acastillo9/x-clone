@@ -1,9 +1,11 @@
 import Tweet from "../../components/Tweet/Tweet"
 import CreateTweet from "../../components/CreateTweet/CreateTweet"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { UserContext } from "../../contexts/userContext"
 
 function Tweets() {
   const [ tweets, setTweets ] = useState([])
+  const user = useContext(UserContext)
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BASE_URL}/tweets`)
@@ -13,17 +15,11 @@ function Tweets() {
       })
   }, [])
 
-  const currentUser = {
-    user: "@luis",
-    name: "Luis",
-    profileImage: "https://randomuser.me/api/portraits/men/1.jpg",
-  }
-
   function createTweet(text) {
     const tweet = {
       id: String(tweets.length + 1),
       text,
-      ...currentUser,
+      ...user,
       timestamp: new Date().toISOString(),
       replays: 0,
       reposts: 0,
@@ -31,7 +27,6 @@ function Tweets() {
       views: 0,
       isLiked: false,
     }
-    // TODO enviar a crear el twwet en el server
 
     fetch(`${import.meta.env.VITE_BASE_URL}/tweets`, {
       method: 'POST',
@@ -65,7 +60,7 @@ function Tweets() {
     <>
       <CreateTweet onCreate={createTweet} />
       <section>
-        {tweets.map((tweet) => <Tweet key={tweet.id} data={tweet} onDelete={deleteTweet}></Tweet>)}
+        {tweets.map((tweet) => <Tweet key={tweet.id} data={tweet} onDelete={user?.user === tweet.user ? deleteTweet : null}></Tweet>)}
       </section>
     </>
   )

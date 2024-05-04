@@ -51,6 +51,19 @@
       "views": 10,
       "profileImage": "https://randomuser.me/api/portraits/men/1.jpg",
       "isLiked": false
+    },
+    {
+      "id": "5",
+      "text": "hola",
+      "user": "@luis",
+      "name": "Luis",
+      "profileImage": "https://randomuser.me/api/portraits/men/1.jpg",
+      "timestamp": "2024-05-04T16:25:52.869Z",
+      "replays": 0,
+      "reposts": 0,
+      "likes": 0,
+      "views": 0,
+      "isLiked": false
     }
   ]
 }
